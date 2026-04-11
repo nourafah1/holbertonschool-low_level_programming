@@ -1,61 +1,8 @@
-#include "variadic_functions.h"
-#include <stdarg.h>
-#include <stdio.h>
-
-/**
- * print_char - prints a char
- * @args: argument list
- * @sep: separator
- */
-void print_char(va_list args, char *sep)
-{
-	printf("%s%c", sep, va_arg(args, int));
-}
-
-/**
- * print_int - prints an int
- * @args: argument list
- * @sep: separator
- */
-void print_int(va_list args, char *sep)
-{
-	printf("%s%d", sep, va_arg(args, int));
-}
-
-/**
- * print_float - prints a float
- * @args: argument list
- * @sep: separator
- */
-void print_float(va_list args, char *sep)
-{
-	printf("%s%f", sep, va_arg(args, double));
-}
-
-/**
- * print_string - prints a string
- * @args: argument list
- * @sep: separator
- */
-void print_string(va_list args, char *sep)
-{
-	char *str;
-
-	str = va_arg(args, char *);
-	if (str == NULL)
-		str = "(nil)";
-	printf("%s%s", sep, str);
-}
-
-/**
- * print_all - prints anything
- * @format: list of types
- */
 void print_all(const char * const format, ...)
 {
 	va_list args;
 	unsigned int i, j;
-	char *sep;
+	char *sep = "";   /* 🔥 حطيه هنا بدل تحت */
 	char types[] = {'c', 'i', 'f', 's'};
 	void (*funcs[])(va_list, char *) = {
 		print_char,
@@ -64,7 +11,8 @@ void print_all(const char * const format, ...)
 		print_string
 	};
 
-	sep = "";
+	/* 🔥 سطر فاضي هنا */
+
 	va_start(args, format);
 	i = 0;
 	while (format && format[i])
