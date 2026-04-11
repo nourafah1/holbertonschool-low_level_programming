@@ -54,28 +54,23 @@ void print_string(va_list arg, char *sep)
 void print_all(const char * const format, ...)
 {
 	va_list arg;
-	unsigned int i = 0, j;
-	char *sep = "";
-	char types[] = {'c', 'i', 'f', 's'};
-	void (*funcs[])(va_list, char *) = {
-		print_char, print_int, print_float, print_string
+	unsigned int i;
+	printer_t p[] = {
+		{'c', print_char},
+		{'i', print_int},
+		{'f', print_float},
+		{'s', print_string},
+		{0, NULL}
 	};
 
-	/* 🔥 هذا السطر الفاضي المهم */
-
 	va_start(arg, format);
+	i = 0;
 	while (format && format[i])
 	{
-		j = 0;
-		while (j < 4)
-		{
-			if (format[i] == types[j])
-			{
-				funcs[j](arg, sep);
-				sep = ", ";
-			}
-			j++;
-		}
+		if (format[i] == p[0].symbol)
+			p[0].print(arg, "");
+		if (format[i] == p[1].symbol)
+			p[1].print(arg, ", ");
 		i++;
 	}
 	printf("\n");
