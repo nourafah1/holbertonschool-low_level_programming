@@ -57,9 +57,12 @@ void print_all(const char * const format, ...)
 	unsigned int i = 0, j;
 	char *sep = "";
 	char types[] = {'c', 'i', 'f', 's'};
-	void (*funcs[])(va_list, char *) = {print_char, print_int, print_float, print_string};
+	void (*funcs[])(va_list, char *) = {
+		print_char, print_int, print_float, print_string
+	};
 
 	va_start(arg, format);
+
 	while (format && format[i])
 	{
 		j = 0;
