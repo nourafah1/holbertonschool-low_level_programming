@@ -54,8 +54,9 @@ void print_string(va_list args, char *sep)
 void print_all(const char * const format, ...)
 {
 	va_list args;
-	unsigned int i, j;
-	char *sep;
+	unsigned int i = 0;
+	unsigned int j;
+	char *sep = "";
 	char types[] = {'c', 'i', 'f', 's'};
 	void (*funcs[])(va_list, char *) = {
 		print_char,
@@ -64,9 +65,7 @@ void print_all(const char * const format, ...)
 		print_string
 	};
 
-	sep = "";
 	va_start(args, format);
-	i = 0;
 	while (format && format[i])
 	{
 		j = 0;
