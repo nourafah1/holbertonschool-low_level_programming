@@ -61,6 +61,7 @@ void print_all(const char * const format, ...)
 		print_char, print_int, print_float, print_string
 	};
 
+	/* 🔥 هذا السطر الفاضي المهم */
 
 	va_start(arg, format);
 	while (format && format[i])
