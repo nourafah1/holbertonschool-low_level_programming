@@ -2,6 +2,29 @@
 #include <string.h>
 
 /**
+ * update_value - updates value if key exists
+ * @node: node list
+ * @key: key
+ * @value: new value
+ *
+ * Return: 1 if updated, 0 if not found
+ */
+int update_value(hash_node_t *node, const char *key, const char *value)
+{
+	while (node)
+	{
+		if (strcmp(node->key, key) == 0)
+		{
+			free(node->value);
+			node->value = strdup(value);
+			return (1);
+		}
+		node = node->next;
+	}
+	return (0);
+}
+
+/**
  * hash_table_set - adds element to hash table
  * @ht: hash table
  * @key: key
@@ -11,48 +34,32 @@
  */
 int hash_table_set(hash_table_t *ht, const char *key, const char *value)
 {
-	hash_node_t *new, *tmp;
+	hash_node_t *new;
 	unsigned long int index;
-	char *val_dup;
 
 	if (ht == NULL || key == NULL || *key == '\0' || value == NULL)
 		return (0);
 
 	index = key_index((const unsigned char *)key, ht->size);
 
-	tmp = ht->array[index];
+	if (update_value(ht->array[index], key, value))
+		return (1);
 
-	/* check if key exists */
-	while (tmp)
-	{
-		if (strcmp(tmp->key, key) == 0)
-		{
-			free(tmp->value);
-			tmp->value = strdup(value);
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-
-	/* create new node */
 	new = malloc(sizeof(hash_node_t));
 	if (new == NULL)
 		return (0);
 
 	new->key = strdup(key);
-	val_dup = strdup(value);
+	new->value = strdup(value);
 
-	if (new->key == NULL || val_dup == NULL)
+	if (new->key == NULL || new->value == NULL)
 	{
 		free(new->key);
-		free(val_dup);
+		free(new->value);
 		free(new);
 		return (0);
 	}
 
-	new->value = val_dup;
-
-	/* insert at beginning (collision handling) */
 	new->next = ht->array[index];
 	ht->array[index] = new;
 
